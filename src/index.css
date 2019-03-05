@@ -6,9 +6,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 28px;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.material-icons{
+  font-size: 50px;
+}
+.center{
+  display: table;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+.add{
+  font-size: 30px;
+}
+#searchText{
+  margin-right: 20px;
+}
+
