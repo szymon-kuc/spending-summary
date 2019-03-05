@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 
 class AddNewItem extends React.Component {
-    render(){
+    render( ){
         return(
             <>
                   <Button variant="contained" color="primary" className="button">
