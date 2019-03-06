@@ -3,13 +3,10 @@ import TextField from '@material-ui/core/TextField';
 
 class Search extends React.Component {
 
-    state = {
-        searchText: ''
-    }
-
     handleText = (event) => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value });
+        const { value } = event.target;
+        this.setState({text: value});
+        this.props.handleSearch(value);
       }
 
     render(){
@@ -18,8 +15,8 @@ class Search extends React.Component {
                 <TextField
                     id="searchText"
                     label="Search..."
+                    value={this.props.text}
                     name="searchText"
-                    value={this.state.searchText}
                     onChange={this.handleText}
                 />
         );

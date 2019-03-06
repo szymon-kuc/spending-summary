@@ -17,7 +17,9 @@ class Month extends React.Component{
         let {year, month} = this.state;
         this.setState({month: e === "plus" ? month += 1 : month -= 1 });
         let newDate = new Date(year, month);
-        this.setState({date: newDate.toLocaleString('en-us', {year: 'numeric', month: 'short'})});
+        newDate = newDate.toLocaleString('en-us', {year: 'numeric', month: 'short'});
+        this.setState({date: newDate});
+        this.props.date(newDate);
     }
     render(){
         let { date } = this.state;
@@ -29,7 +31,6 @@ class Month extends React.Component{
                 {date}
                 <Button color="primary" onClick={() => this.handleDate("plus")}>
                 <i className="material-icons">chevron_right</i></Button>
-
             </div>
             </>
         );
