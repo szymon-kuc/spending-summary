@@ -6,10 +6,10 @@ class Spending extends React.Component {
         listOfItems: ''
     }
     render(){
-        const { listOfItems } = this.props;
+        const { listOfItems, removeItem } = this.props;
         return(
             <div className="table">
-                <DrawTable itemsArray={listOfItems}/>
+                <DrawTable itemsArray={listOfItems} removeItem = {item => removeItem(item)}/>
             </div>
         );
     }

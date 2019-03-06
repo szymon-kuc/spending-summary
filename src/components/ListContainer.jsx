@@ -34,7 +34,7 @@ class ListContainer extends React.Component {
 
     }
     render(){
-        const { data } = this.props;
+        const { data, removeItem } = this.props;
         const { searchText, updateListOfItems } = this.state;
         return(
             <>
@@ -42,7 +42,7 @@ class ListContainer extends React.Component {
                 <Search handleSearch={(searchText) => this.handleSearch(searchText)} text={searchText}/>
                 <Add onNewItemAdd={(newItem) => this.onNewItemAdd(newItem)} searchText={searchText} date={data.date}/>
             </div>
-            <Spending listOfItems={searchText === '' ? data.filterListOfItems : updateListOfItems } searchText={searchText}/>
+            <Spending listOfItems={searchText === '' ? data.filterListOfItems : updateListOfItems } searchText={searchText} removeItem={item => removeItem(item)}/>
             </>
         );
 

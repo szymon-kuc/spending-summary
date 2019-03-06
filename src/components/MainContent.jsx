@@ -35,11 +35,21 @@ class MainContent extends React.Component{
         this.state.listOfItems.push(item);
         this.state.filterListOfItems.push(item);
     }
+    removeItem = item => {
+        this.setState({
+            listOfItems: this.state.listOfItems.filter((row, i)=>{
+                return i !== item;
+            }),
+            filterListOfItems: this.state.filterListOfItems.filter((row, i)=>{
+                return i !== item;
+            }),
+        })
+    }
     render(){
         return(
             <>
                 <Month date={(date)=>this.setDate(date)}/>
-                <ListContainer data={this.state} addItem={item => this.addItemToArray(item)}/>
+                <ListContainer data={this.state} addItem={item => this.addItemToArray(item)} removeItem={item => this.removeItem(item)}/>
             </>
         );
     }
