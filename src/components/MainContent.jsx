@@ -10,21 +10,20 @@ class MainContent extends React.Component{
             date: "Jan 2019"
         }
 
-        this.AddItemToArray = this.AddItemToArray.bind(this);
+        this.AddItemToArray = this.addItemToArray.bind(this);
     }
 
     setDate(date){
         this.setState({date: date});
     }
-    AddItemToArray(item){
+    addItemToArray(item){
         this.state.listOfItems.push(item);
-        console.log(this.state.listOfItems);
     }
     render(){
         return(
             <>
                 <Month date={(date)=>this.setDate(date)}/>
-                <ListContainer data={this.state} addItem={item => this.AddItemToArray(item)}/>
+                <ListContainer data={this.state} addItem={item => this.addItemToArray(item)}/>
             </>
         );
     }
