@@ -23,10 +23,10 @@ class ListContainer extends React.Component {
     handleSearch(searchText){
         this.setState({searchText: searchText});
 
-        const { listOfItems} = this.props.data;
+        const {  filterListOfItems } = this.props.data;
 
-        let newListOfItems = listOfItems;
-        
+        let newListOfItems = filterListOfItems;
+
         let newArray = filter(newListOfItems, item => item.Name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0);
         newArray =  orderBy(newArray, [item => item.Name], ['desc']);
 
@@ -42,7 +42,7 @@ class ListContainer extends React.Component {
                 <Search handleSearch={(searchText) => this.handleSearch(searchText)} text={searchText}/>
                 <Add onNewItemAdd={(newItem) => this.onNewItemAdd(newItem)} searchText={searchText} date={data.date}/>
             </div>
-            <Spending listOfItems={searchText === '' ? data.listOfItems : updateListOfItems } searchText={searchText}/>
+            <Spending listOfItems={searchText === '' ? data.filterListOfItems : updateListOfItems } searchText={searchText}/>
             </>
         );
 

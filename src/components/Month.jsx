@@ -3,8 +3,8 @@ import Button from '@material-ui/core/Button';
 
 class Month extends React.Component{
 
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
             year: 2019,
             month: 0,
@@ -19,6 +19,7 @@ class Month extends React.Component{
         let newDate = new Date(year, month);
         newDate = newDate.toLocaleString('en-us', {year: 'numeric', month: 'short'});
         this.setState({date: newDate});
+        //console.log(newDate);
         this.props.date(newDate);
     }
     render(){
