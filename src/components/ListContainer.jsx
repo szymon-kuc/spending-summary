@@ -2,7 +2,7 @@ import React from 'react';
 import { Search } from './Search';
 import { AddNewItem as Add} from './AddNewItem';
 import {Spending} from './Spending';
-import { filter, orderBy } from 'lodash';
+import _ from 'lodash';
 
 class ListContainer extends React.Component {
 
@@ -10,7 +10,7 @@ class ListContainer extends React.Component {
         super();
         this.state = {
             searchText: '',
-            updateListOfItems: ''
+            updatedListOfItems: ''
         }
         this.onNewItemAdd = this.onNewItemAdd.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -21,28 +21,28 @@ class ListContainer extends React.Component {
         this.setState({searchText: ''})
     }
     handleSearch(searchText){
-        this.setState({searchText: searchText});
+        this.setState({ searchText });
 
         const {  filterListOfItems } = this.props.data;
 
-        let newListOfItems = filterListOfItems;
+            const newArray = _(filterListOfItems)
+             .filter(item => item.Name.toLowerCase().includes(searchText.toLowerCase()))
+             .orderBy(item => item.Name, ['desc'])
+             .valueOf()
 
-        let newArray = filter(newListOfItems, item => item.Name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0);
-        newArray =  orderBy(newArray, [item => item.Name], ['desc']);
-
-        this.setState({updateListOfItems: newArray});
+        this.setState({updatedListOfItems: newArray});
 
     }
     render(){
-        const { data, removeItem } = this.props;
-        const { searchText, updateListOfItems } = this.state;
+        const { data, removeItem, editItem } = this.props;
+        const { searchText, updatedListOfItems } = this.state;
         return(
             <>
             <div className="center">
                 <Search handleSearch={(searchText) => this.handleSearch(searchText)} text={searchText}/>
                 <Add onNewItemAdd={(newItem) => this.onNewItemAdd(newItem)} searchText={searchText} date={data.date}/>
             </div>
-            <Spending listOfItems={searchText === '' ? data.filterListOfItems : updateListOfItems } searchText={searchText} removeItem={item => removeItem(item)}/>
+            <Spending listOfItems={searchText === '' ? data.filterListOfItems : updatedListOfItems } searchText={searchText} removeItem={item => removeItem(item)} editItem={item => editItem(item)} isClick={data.isClick} editItemIndex={data.editItemIndex}/>
             </>
         );
 

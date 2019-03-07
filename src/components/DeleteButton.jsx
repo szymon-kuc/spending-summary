@@ -10,7 +10,7 @@ class DeleteButton extends React.Component {
   state = {
     open: false,
   };
-
+  
   handleClickOpen = () => {
     this.setState({ open: true });
   };

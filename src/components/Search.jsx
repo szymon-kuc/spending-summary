@@ -5,7 +5,6 @@ class Search extends React.Component {
 
     handleText = (event) => {
         const { value } = event.target;
-        this.setState({text: value});
         this.props.handleSearch(value);
       }
 

@@ -6,10 +6,10 @@ class Spending extends React.Component {
         listOfItems: ''
     }
     render(){
-        const { listOfItems, removeItem } = this.props;
+        const { listOfItems, removeItem, editItem, isClick, editItemIndex } = this.props;
         return(
             <div className="table">
-                <DrawTable itemsArray={listOfItems} removeItem = {item => removeItem(item)}/>
+                <DrawTable itemsArray={listOfItems} removeItem = {item => removeItem(item)} editItem={item => editItem(item)} isClick={isClick} editItemIndex={editItemIndex}/>
             </div>
         );
     }
