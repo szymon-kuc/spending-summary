@@ -1,25 +1,22 @@
 import React from "react";
 import Button from '@material-ui/core/Button';
-
+import moment from 'moment';
 class Month extends React.Component{
 
     constructor(){
         super();
         this.state = {
-            year: 2019,
-            month: 0,
             date: 'Jan 2019'
         }
 
         this.handleDate = this.handleDate.bind(this);
     }
     handleDate(e){
-        let {year, month} = this.state;
-        this.setState({month: e === "plus" ? month += 1 : month -= 1 });
-        let newDate = new Date(year, month);
-        newDate = newDate.toLocaleString('en-us', {year: 'numeric', month: 'short'});
+        let newDate = moment(this.state.date, 'MMM YYYY');
+        newDate = e === "plus" ? newDate.add(1, 'month') : newDate.add(-1, 'month');
+        newDate = newDate.format("MMM YYYY");
+
         this.setState({date: newDate});
-        //console.log(newDate);
         this.props.date(newDate);
     }
     render(){

@@ -16,12 +16,9 @@ class AddNewItem extends React.Component {
     }
     render( ){
         return(
-            <>
-                  <Button variant="contained" color="primary" className="button" onClick={this.handleAddItem}>
-                  <i className="material-icons add">add</i>
-                  </Button>
-             
-            </>
+            <Button variant="contained" color="primary" className="button" onClick={this.handleAddItem}>
+            <i className="material-icons add">add</i>
+            </Button> 
         );
 
     }

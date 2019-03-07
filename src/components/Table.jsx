@@ -4,9 +4,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import Edit from '@material-ui/icons/Edit';
 import DeleteButton from './DeleteButton';
+import {EditItem} from './Edit';
 
 const DrawTable = ({itemsArray, removeItem}) => (
     <>
@@ -34,9 +33,7 @@ const DrawTable = ({itemsArray, removeItem}) => (
                         <DeleteButton handleClick={() => removeItem(index)} />
                     </TableCell>
                     <TableCell>
-                        <IconButton>
-                            <Edit />
-                        </IconButton>
+                        <EditItem handleEdit={index} />
                     </TableCell>
                 </TableRow>
     
