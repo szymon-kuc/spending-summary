@@ -1,18 +1,17 @@
 import React from "react";
-import {DrawTable} from "./Table";
+import { DrawTable } from "./Table";
 
-class Spending extends React.Component {
-    state = {
-        listOfItems: ''
-    }
-    render(){
-        const { listOfItems, removeItem, editItem, isClick, editItemIndex } = this.props;
-        return(
-            <div className="table">
-                <DrawTable itemsArray={listOfItems} removeItem = {item => removeItem(item)} editItem={item => editItem(item)} isClick={isClick} editItemIndex={editItemIndex}/>
-            </div>
-        );
-    }
-}
+const Spending = ({listOfItems, removeItem, editItem}) => {
 
-export {Spending};
+    return (
+      <div className="table">
+        <DrawTable
+          itemsArray={listOfItems}
+          removeItem={item => removeItem(item)}
+          editItem={item => editItem(item)}
+        />
+      </div>
+    );
+  }
+
+export { Spending };

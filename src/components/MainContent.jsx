@@ -1,91 +1,108 @@
 import React from "react";
 import { Month } from "./Month";
-import { ListContainer } from './ListContainer';
-import { filter} from 'lodash';
+import { ListContainer } from "./ListContainer";
+import { filter } from "lodash";
+import { Amount } from "./Amount";
 
-class MainContent extends React.Component{
-    constructor(){
-        super();
-        this.state = {
-            listOfItems: [],
-            filterListOfItems: [],
-            date: "Jan 2019",
-            isClick: false,
+class MainContent extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      listOfItems: [],
+      filterListOfItems: [],
+      date: 'Jan 2019',
+      id: ''
+    };
+
+    this.addItemToArray = this.addItemToArray.bind(this);
+    this.filterItemsByDate = this.filterItemsByDate.bind(this);
+    this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(date) {
+    this.setState({ date });
+    this.filterItemsByDate(date);
+  }
+  filterItemsByDate(date) {
+    const { listOfItems } = this.state;
+
+    let newArray = filter(listOfItems, { date: date });
+
+    this.setState({ filterListOfItems: newArray });
+  }
+  addItemToArray(item, id) {
+    this.setState(prevState => ({
+      ...prevState,
+      listOfItems: prevState.listOfItems.concat(item),
+      filterListOfItems: prevState.filterListOfItems.concat(item),
+      id: id
+    }));
+  }
+  removeItem = item => {
+    this.setState({
+      listOfItems: this.state.listOfItems.filter((el) => {
+        if(el.id === item.id){
+          return null;
+        }else{
+          return el;
         }
-
-        this.addItemToArray = this.addItemToArray.bind(this);
-        this.filterItemsByDate = this.filterItemsByDate.bind(this);
-        this.setDate = this.setDate.bind(this);
-        this.handleChange.bind(this);
-    }
-
-    setDate(date){
-        this.setState({date});
-        this.filterItemsByDate(date);
-    }
-
-    filterItemsByDate(date){
-        const { listOfItems } = this.state;
-
-        let newArray = filter(listOfItems, {id: date});
-
-        this.setState({filterListOfItems: newArray})
-    }
-
-    addItemToArray(item){
-        this.setState(prevState => ({
-            ...prevState,
-            listOfItems: prevState.listOfItems.concat(item),
-            filterListOfItems: prevState.filterListOfItems.concat(item)
-          }));
-    }
-
-    removeItem = item => {
-        this.setState(prevState => ({
-            listOfItems: prevState.listOfItems.filter((row, i)=>{
-                return i !== item;
-            }),
-            filterListOfItems: prevState.filterListOfItems.filter((row, i)=>{
-                return i !== item;
-            }),
-        }));
-    }
-
-    editItem = item =>{
-        
-        if(this.state.isClick === false ){
-            this.setState({isClick: true});
+      }),
+      filterListOfItems: this.state.filterListOfItems.filter((el) => {
+        if(el.id === item.id){
+          return null;
+        }else{
+          return el;
         }
-        else{
-            this.setState({isClick: false});
-        }
-        let { filterListOfItems } = this.state;
+      })
+    });
+  };
 
-       let editItem = filterListOfItems.filter((row, i)=>{
-           return i === item;
-       });
-        filterListOfItems.forEach(item => {
-           if(item.Name === editItem.Name){
-               item = editItem;
-           }
-      });   
-      console.log(filterListOfItems);
+  editItem = (item) => {
+
+    let { filterListOfItems, listOfItems, date, id } = this.state;
+    if(item.date === '' && item.id === ''){
+      item.date = date;
+      item.id = id;
     }
-    
-    handleChange(event){
-        const { value } = event.target;
-        //this.setState({ [name]: value });
-        console.log(value);
-    }   
-    
-    render(){
-        return(
-            <>
-                <Month date={(date)=>this.setDate(date)}/>
-                <ListContainer data={this.state} addItem={item => this.addItemToArray(item)} removeItem={item => this.removeItem(item)} editItem={item => this.editItem(item)}/>
-            </>
-        );
-    }
+
+    const filterList = this.returnEdit(filterListOfItems, item);
+    const mainList = this.returnEdit(listOfItems, item);
+    this.setState({ filterListOfItems: filterList, listOfItems: mainList });
+  };
+
+  returnEdit = (items, item) =>{
+
+    const editItem = items.filter((el) => {
+      if(el.id === item.id){
+        return item;
+      }else{
+        return null;
+      }
+    });
+   const filterItems = items.map(element => {
+      if (element.id === editItem[0].id) {
+        return item;
+      } else {
+        return element;
+      }
+    });
+    return filterItems;
+  }
+
+  render() {
+    return (
+      <>
+        <Month date={date => this.setDate(date)} />
+        <ListContainer
+          data={this.state}
+          addItem={(item, id) => this.addItemToArray(item, id)}
+          removeItem={item => this.removeItem(item)}
+          editItem={item => this.editItem(item)}
+        />
+        <Amount itemsArray={this.state.filterListOfItems}/>
+      </>
+    );
+  }
 }
 
 export { MainContent };
