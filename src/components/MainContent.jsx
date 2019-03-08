@@ -11,7 +11,6 @@ class MainContent extends React.Component{
             filterListOfItems: [],
             date: "Jan 2019",
             isClick: false,
-            editItemIndex: ''
         }
 
         this.addItemToArray = this.addItemToArray.bind(this);
@@ -54,28 +53,25 @@ class MainContent extends React.Component{
 
     editItem = item =>{
         
-        this.setState({editItemIndex: item});
         if(this.state.isClick === false ){
             this.setState({isClick: true});
         }
         else{
             this.setState({isClick: false});
         }
-        //let { filterListOfItems } = this.state;
+        let { filterListOfItems } = this.state;
 
-    //     let editItem = filterListOfItems.filter((row, i)=>{
-    //         return i === item;
-    //     });
-    //    const element = <input type="text" name="value" onChange={this.handleChange}></input>;
-        
-    //   filterListOfItems.forEach(item => {
-    //         if(item.Name === editItem[0].Name){
-    //             item = editItem[0];
-    //         }
-    //    });
-       
-    //    this.setState({filterListOfItems});
+       let editItem = filterListOfItems.filter((row, i)=>{
+           return i === item;
+       });
+        filterListOfItems.forEach(item => {
+           if(item.Name === editItem.Name){
+               item = editItem;
+           }
+      });   
+      console.log(filterListOfItems);
     }
+    
     handleChange(event){
         const { value } = event.target;
         //this.setState({ [name]: value });

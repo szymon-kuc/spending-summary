@@ -9,18 +9,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import {EditItem} from './Edit';
 
-
 class DrawTable extends React.Component  {
     state = {
         isClick: false,
         index: ''
     }
 
-    handleClick = (index) => {
-        this.props.editItem(index);
+    handleClick = (item) => {
+        this.props.editItem(item);
     }
     render(){
-        const { itemsArray, removeItem, isClick, editItemIndex} = this.props;
+        const { itemsArray, removeItem, editItem, isClick} = this.props;
         return (
         <>
         <Table style={{ width: '50%', margin: 'auto' }}>
@@ -35,21 +34,23 @@ class DrawTable extends React.Component  {
                 </TableRow>
             </TableHead>
             <TableBody>
-        
         {itemsArray.map((item, index) => {
-            
             return (
                     <TableRow key={index}>
-                        <EditItem data={this.state} name={item} index={index} isClick={isClick} editItemIndex={editItemIndex}/>
+                        <TableCell><EditItem data={this.state} name={item.Name} index={index} isClick={isClick}/></TableCell>
+                        <TableCell><EditItem data={this.state} name={item.Gross} index={index} isClick={isClick}/></TableCell>
+                        <TableCell><EditItem data={this.state} name={item.Vat} index={index} isClick={isClick}/></TableCell>
+                        <TableCell><EditItem data={this.state} name={item.Net} index={index} isClick={isClick}/></TableCell>
                         <TableCell>
                             <DeleteButton handleClick={() => removeItem(index)} />
                         </TableCell>
                         <TableCell>
-                            <IconButton onClick={() => this.handleClick(index)}>
+                            <IconButton onClick={() => editItem(item)}>
                                 <Edit />
                             </IconButton>
                         </TableCell>
                     </TableRow>
+        
             );
         })}
         </TableBody>
