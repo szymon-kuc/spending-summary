@@ -11,7 +11,9 @@ class MainContent extends React.Component {
       listOfItems: [],
       filterListOfItems: [],
       date: 'Jan 2019',
-      id: ''
+      id: '',
+      amount: [],
+      amountObj: { amountOfGross: 0, amountOfNet: 0 }
     };
 
     this.addItemToArray = this.addItemToArray.bind(this);
@@ -29,6 +31,7 @@ class MainContent extends React.Component {
     let newArray = filter(listOfItems, { date: date });
 
     this.setState({ filterListOfItems: newArray });
+    this.amount(newArray);
   }
   addItemToArray(item, id) {
     this.setState(prevState => ({
@@ -39,54 +42,67 @@ class MainContent extends React.Component {
     }));
   }
   removeItem = item => {
-    this.setState({
-      listOfItems: this.state.listOfItems.filter((el) => {
-        if(el.id === item.id){
+    this.setState(prevState => ({
+      ...prevState,
+      amountObj: { amountOfGross: prevState.amountObj.amountOfGross - item.Gross, amountOfNet: prevState.amountObj.amountOfNet - item.Net },
+      listOfItems: prevState.listOfItems.filter((el) => {
+        if (el.id === item.id) {
           return null;
-        }else{
+        } else {
           return el;
         }
       }),
-      filterListOfItems: this.state.filterListOfItems.filter((el) => {
-        if(el.id === item.id){
+      filterListOfItems: prevState.filterListOfItems.filter((el) => {
+        if (el.id === item.id) {
           return null;
-        }else{
+        } else {
           return el;
         }
       })
-    });
+    }));
   };
 
   editItem = (item) => {
 
-    let { filterListOfItems, listOfItems, date, id } = this.state;
-    if(item.date === '' && item.id === ''){
-      item.date = date;
-      item.id = id;
-    }
+    let { filterListOfItems, listOfItems } = this.state;
 
     const filterList = this.returnEdit(filterListOfItems, item);
     const mainList = this.returnEdit(listOfItems, item);
     this.setState({ filterListOfItems: filterList, listOfItems: mainList });
+    this.amount(filterList);
   };
 
-  returnEdit = (items, item) =>{
-
-    const editItem = items.filter((el) => {
-      if(el.id === item.id){
-        return item;
-      }else{
-        return null;
-      }
-    });
-   const filterItems = items.map(element => {
-      if (element.id === editItem[0].id) {
+  returnEdit = (items, item) => {
+    const filterItems = items.map(element => {
+      if (element.id === item.id) {
         return item;
       } else {
         return element;
       }
     });
     return filterItems;
+
+  }
+  amount = (items) => {
+    const { date } = this.state;
+    let amountObj = { amountOfGross: 0, amountOfNet: 0, id: date };
+
+    items.forEach((el) => {
+      amountObj.amountOfGross += el.Gross;
+      amountObj.amountOfNet += el.Net;
+    });
+
+    this.setState({ amountObj });
+    this.setState(prevState => ({
+      ...prevState,
+      amount: prevState.amount.filter((el) => {
+        if (el.id === date) {
+          el.amountOfGross += amountObj.amountOfGross;
+          el.amountOfNet += amountObj.amountOfNet;
+        }
+        return el;
+      })
+    }));
   }
 
   render() {
@@ -99,7 +115,7 @@ class MainContent extends React.Component {
           removeItem={item => this.removeItem(item)}
           editItem={item => this.editItem(item)}
         />
-        <Amount itemsArray={this.state.filterListOfItems}/>
+        <Amount amount={this.state.amountObj} />
       </>
     );
   }

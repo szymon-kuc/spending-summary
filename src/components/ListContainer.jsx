@@ -26,7 +26,7 @@ class ListContainer extends React.Component {
 
     const newArray = _(filterListOfItems)
       .filter(item => item.Name.toLowerCase().includes(searchText.toLowerCase()))
-      .orderBy([item => item.Name], ['desc'])
+      .orderBy(item => item.Name, ['desc'])
       .valueOf()
 
     this.setState({ updateListOfItems: newArray });

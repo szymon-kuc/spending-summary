@@ -8,28 +8,39 @@ class EditItem extends React.Component {
   state = {
     Name: "",
     Gross: 0,
-    Vat: 0,
+    Vat: this.props.itemsArray[this.props.index].Vat,
     Net: 0,
-    date: '',
-    id: ''
+    date: this.props.itemsArray[this.props.index].date,
+    id: this.props.itemsArray[this.props.index].id
   };
-  
-  componentDidMount(){
+
+  componentDidMount() {
     const { index, itemsArray } = this.props;
-    this.setState({Name: itemsArray[index].Name, Gross: itemsArray[index].Gross, Vat: itemsArray[index].Vat, Net: itemsArray[index].Net})
+    this.setState({ Name: itemsArray[index].Name, Gross: itemsArray[index].Gross, Vat: itemsArray[index].Vat, Net: itemsArray[index].Net })
   }
   handleChange = event => {
     const { name, value } = event.target;
-    this.setState({[name]: name === "Name" ?  value : parseInt(value) });
+    const { Gross, Vat } = this.state;
+
+    this.setState({ [name]: name === "Name" ? value : parseInt(value) });
+
+    if (name === "Vat" && !isNaN(value) && !isNaN(Gross)) {
+      let netto = (1 - value / 100) * Gross;
+      this.setState({ Net: netto });
+    } else if (name === "Gross" && Vat !== 0) {
+      let netto = (1 - Vat / 100) * value;
+      this.setState({ Net: netto });
+    }
+
   };
   handleClick = () => {
     const { editItem, index, handleClick } = this.props;
     let { Gross, Vat, Net } = this.state;
-    if(!isNaN(Gross) && !isNaN(Vat) && !isNaN(Net)){
+    if (!isNaN(Gross) && !isNaN(Vat) && !isNaN(Net)) {
       editItem(this.state);
       handleClick(index);
     }
-    else{
+    else {
       alert('Please insert a number!');
     }
   };
@@ -38,16 +49,16 @@ class EditItem extends React.Component {
     return (
       <>
         <TableCell>
-          <TextField placeholder="Name" label="Name" onChange={this.handleChange} name="Name" margin="dense" variant="outlined" defaultValue={itemsArray[index].Name}/>
+          <TextField placeholder="Name" label="Name" onChange={this.handleChange} name="Name" margin="dense" variant="outlined" defaultValue={itemsArray[index].Name} />
         </TableCell>
         <TableCell>
-          <TextField label="Gross $" onChange={this.handleChange} name="Gross" margin="dense" variant="outlined" defaultValue={itemsArray[index].Gross}/>
+          <TextField label="Gross $" onChange={this.handleChange} name="Gross" margin="dense" variant="outlined" defaultValue={itemsArray[index].Gross} />
         </TableCell>
         <TableCell>
-          <TextField label="VAT %" onChange={this.handleChange} name="Vat" margin="dense" variant="outlined" defaultValue={itemsArray[index].Vat}/>
+          <TextField label="VAT %" onChange={this.handleChange} name="Vat" margin="dense" variant="outlined" defaultValue={itemsArray[index].Vat} />
         </TableCell>
         <TableCell>
-          <TextField label="Net $" onChange={this.handleChange} name="Net" margin="dense" variant="outlined" defaultValue={itemsArray[index].Net}/>
+          <TextField label="Net $" onChange={this.handleChange} name="Net" margin="dense" variant="outlined" value={this.state.Net} />
         </TableCell>
         <TableCell>
         </TableCell>
