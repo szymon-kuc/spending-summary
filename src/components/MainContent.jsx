@@ -3,6 +3,7 @@ import { Month } from "./Month";
 import { ListContainer } from "./ListContainer";
 import { filter } from "lodash";
 import { Amount } from "./Amount";
+import Edit from "@material-ui/icons/Edit";
 
 class MainContent extends React.Component {
   constructor() {
@@ -108,6 +109,7 @@ class MainContent extends React.Component {
   render() {
     return (
       <>
+        <h2 className="header">SPENDING SUMMARY</h2>
         <Month date={date => this.setDate(date)} />
         <ListContainer
           data={this.state}
@@ -116,6 +118,7 @@ class MainContent extends React.Component {
           editItem={item => this.editItem(item)}
         />
         <Amount amount={this.state.amountObj} />
+        <p className="note">Note! To add gross, vat and net value click <Edit /></p>
       </>
     );
   }

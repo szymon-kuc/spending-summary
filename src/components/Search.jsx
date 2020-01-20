@@ -13,7 +13,7 @@ class Search extends React.Component {
         return(
                 <TextField
                     id="searchText"
-                    label="Search..."
+                    label="add/search"
                     value={this.props.text}
                     name="searchText"
                     onChange={this.handleText}
