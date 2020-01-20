@@ -1,10 +1,12 @@
 {
   "name": "spending_summary",
   "version": "0.1.0",
+  "homepage": "https://ironknight545.github.io/spending_summary/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "gh-pages": "^2.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.8.3",
@@ -12,6 +14,8 @@
     "react-scripts": "2.1.5"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
